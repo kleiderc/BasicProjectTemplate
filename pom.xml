@@ -68,7 +68,7 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<optional>true</optional>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -82,6 +82,26 @@
 		</dependency>
 	</dependencies>
 
+	<profiles>
+		<profile>
+		  <id>debug</id>
+		    <activation>
+		      <activeByDefault>false</activeByDefault>
+		    </activation>
+		    <properties>
+		      <!-- You can use these properties anywhere -->
+		      <!--	mvn clean package spring-boot:run -Pdebug
+		      
+					transport=dt_socket	Use socket-based debug transport
+					server=y	        JVM will wait for a debugger to attach
+					suspend=n	        App starts immediately (use y to wait until Eclipse attaches)
+					address=*:5005	    Listen on all interfaces (use localhost:5005 if needed)
+				-->
+		      <debug.jvm.args>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:5005</debug.jvm.args>
+		    </properties>
+		</profile>
+	</profiles>
+	
 	<build>
 		<plugins>
 			<plugin>
@@ -100,6 +120,9 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+					<!-- Use the Property in Your Plugin to use the debug -->
+					<jvmArguments>${debug.jvm.args}</jvmArguments>
+					
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>
