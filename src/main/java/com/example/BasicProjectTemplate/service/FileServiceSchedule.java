@@ -19,7 +19,7 @@ public class FileServiceSchedule {
 
 	private static final Logger log = LoggerFactory.getLogger(FileServiceSchedule.class);
 
-	@Scheduled(cron = "*/30 * * * * *") // fixedRate = 5000
+	@Scheduled(cron = "0 0/30 * * * ?") // Write each 30 minutes.
 	@Async
 	public void reportFileServiceSchedule() {
 		
