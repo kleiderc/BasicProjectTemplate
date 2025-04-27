@@ -53,7 +53,7 @@ public class UserController {
 	 * @param bindingResult
 	 * @param model         - An interface used to pass data from the controller to
 	 *                      the view (like Thymeleaf HTML pages).
-	 * @return
+	 * @return  - Redirects the browser to the final READ template.
 	 */
 	@PostMapping("/create")
 	public String createUser(@Valid UserForm userForm, BindingResult bindingResult, Model model) {
@@ -77,7 +77,7 @@ public class UserController {
 	 * 
 	 * @param model - An interface used to pass data from the controller to the view
 	 *              (like Thymeleaf HTML pages).
-	 * @return
+	 * @return - Redirects the browser to the final READ template.
 	 */
 	@GetMapping("/read")
 	public String listUsers(Model model) {
@@ -122,7 +122,7 @@ public class UserController {
 	 * @param id
 	 * @param model - An interface used to pass data from the controller to the view
 	 *              (like Thymeleaf HTML pages).
-	 * @return
+	 * @return  - Redirects the browser to the final UPDATE template.
 	 */
 	@GetMapping("/edit/{id}")
 	public String editUser(@PathVariable int id, Model model) {
@@ -138,7 +138,7 @@ public class UserController {
 	 * @param id
 	 * @param model - An interface used to pass data from the controller to the view
 	 *              (like Thymeleaf HTML pages).
-	 * @return
+	 * @return - Redirects the browser to the final READ template.
 	 */
 	@GetMapping("/delete/{id}")
 	public String deleteUser(@PathVariable Long id, Model model) {

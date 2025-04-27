@@ -14,7 +14,7 @@ import com.example.BasicProjectTemplate.model.User;
 import com.example.BasicProjectTemplate.repository.UserRepository;
 
 /**
- * 
+ * Service layer (Business Logic layer) for user operations. 
  */
 @Service
 public class UserService {
@@ -29,7 +29,7 @@ public class UserService {
 	public User findById(final Integer id) {
 		return userRepository.findById(id.longValue()).orElse(null);
 	}
-
+	
 	public User save(final UserForm userForm) {
 		final User user = new User();
 		user.setId(userForm.getId());
