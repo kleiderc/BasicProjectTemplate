@@ -13,9 +13,12 @@ import com.example.BasicProjectTemplate.dto.UserForm;
 import com.example.BasicProjectTemplate.model.User;
 import com.example.BasicProjectTemplate.repository.UserRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
- * Service layer (Business Logic layer) for user operations. 
+ * Service layer (Business Logic layer) for user operations.
  */
+@Slf4j
 @Service
 public class UserService {
 
@@ -27,9 +30,15 @@ public class UserService {
 	}
 
 	public User findById(final Integer id) {
-		return userRepository.findById(id.longValue()).orElse(null);
+		log.debug("Fetching user with ID: {}", id);
+		User user = userRepository.findById(id.longValue()).orElse(null);
+		if (user == null) {
+			log.error("User not found with ID: {}", id);
+			throw new RuntimeException("User not found!");
+		}
+		return user;
 	}
-	
+
 	public User save(final UserForm userForm) {
 		final User user = new User();
 		user.setId(userForm.getId());
@@ -37,6 +46,7 @@ public class UserService {
 		user.setEmail(userForm.getEmail());
 		user.setAge(userForm.getAge());
 
+		log.info("Creating user with ID: {}", user.getId());
 		return userRepository.save(user);
 	}
 

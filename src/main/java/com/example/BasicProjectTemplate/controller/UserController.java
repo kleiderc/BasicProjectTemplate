@@ -16,11 +16,13 @@ import com.example.BasicProjectTemplate.model.User;
 import com.example.BasicProjectTemplate.service.UserService;
 
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * http://localhost:8080/index.html
  * 
  */
+@Slf4j
 @Controller
 @RequestMapping("/user") // Base route for all user operations
 public class UserController {
@@ -43,6 +45,8 @@ public class UserController {
 	 */
 	@GetMapping
 	public String showForm(UserForm userForm) {
+		
+		log.info("Received request to show the Create template");
 		return UserController.CREATE_VIEW; // Returns the view name: create.html
 	}
 
@@ -53,11 +57,12 @@ public class UserController {
 	 * @param bindingResult
 	 * @param model         - An interface used to pass data from the controller to
 	 *                      the view (like Thymeleaf HTML pages).
-	 * @return  - Redirects the browser to the final READ template.
+	 * @return - Redirects the browser to the final READ template.
 	 */
 	@PostMapping("/create")
 	public String createUser(@Valid UserForm userForm, BindingResult bindingResult, Model model) {
-
+		
+		log.info("Received request to create user: {}", userForm);
 		if (bindingResult.hasErrors()) {
 			// http://localhost:8080/user/create
 			return UserController.CREATE_VIEW;// Returns the view name: create.html
@@ -82,6 +87,7 @@ public class UserController {
 	@GetMapping("/read")
 	public String listUsers(Model model) {
 
+		log.info("Received request to list all users");
 		List<User> users = userService.getAllUsers();
 		model.addAttribute("users", users); // Pass data to the view
 
@@ -122,11 +128,12 @@ public class UserController {
 	 * @param id
 	 * @param model - An interface used to pass data from the controller to the view
 	 *              (like Thymeleaf HTML pages).
-	 * @return  - Redirects the browser to the final UPDATE template.
+	 * @return - Redirects the browser to the final UPDATE template.
 	 */
 	@GetMapping("/edit/{id}")
 	public String editUser(@PathVariable int id, Model model) {
 
+		log.info("Received request to update user with ID: {}", id);
 		User user = userService.findById(id);
 		model.addAttribute("userForm", user);// Pass data to the view
 
@@ -143,6 +150,7 @@ public class UserController {
 	@GetMapping("/delete/{id}")
 	public String deleteUser(@PathVariable Long id, Model model) {
 
+		log.info("Received request to delete user with ID: {}", id);
 		userService.deleteUser(id);
 
 		List<User> users = userService.getAllUsers();
