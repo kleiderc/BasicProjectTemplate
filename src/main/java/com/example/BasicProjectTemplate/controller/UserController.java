@@ -2,6 +2,8 @@ package com.example.BasicProjectTemplate.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,13 +18,12 @@ import com.example.BasicProjectTemplate.model.User;
 import com.example.BasicProjectTemplate.service.UserService;
 
 import jakarta.validation.Valid;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * http://localhost:8080/index.html
  * 
  */
-@Slf4j
+//@Slf4j // TO use log instead of logger
 @Controller
 @RequestMapping("/user") // Base route for all user operations
 public class UserController {
@@ -31,6 +32,8 @@ public class UserController {
 	private static final String READ_VIEW = "userdto/read";
 	private static final String UPDATE_VIEW = "userdto/update";
 
+	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+	
 	@Autowired
 	private UserService userService;
 
@@ -46,7 +49,7 @@ public class UserController {
 	@GetMapping
 	public String showForm(UserForm userForm) {
 		
-		log.info("Received request to show the Create template");
+		logger.info("Received request to show the Create template");
 		return UserController.CREATE_VIEW; // Returns the view name: create.html
 	}
 
@@ -62,7 +65,7 @@ public class UserController {
 	@PostMapping("/create")
 	public String createUser(@Valid UserForm userForm, BindingResult bindingResult, Model model) {
 		
-		log.info("Received request to create user: {}", userForm);
+		logger.info("Received request to create user: {}", userForm);
 		if (bindingResult.hasErrors()) {
 			// http://localhost:8080/user/create
 			return UserController.CREATE_VIEW;// Returns the view name: create.html
@@ -87,7 +90,8 @@ public class UserController {
 	@GetMapping("/read")
 	public String listUsers(Model model) {
 
-		log.info("Received request to list all users");
+		logger.info("Received request to list all users");
+		
 		List<User> users = userService.getAllUsers();
 		model.addAttribute("users", users); // Pass data to the view
 
@@ -131,10 +135,11 @@ public class UserController {
 	 * @return - Redirects the browser to the final UPDATE template.
 	 */
 	@GetMapping("/edit/{id}")
-	public String editUser(@PathVariable int id, Model model) {
+	public String editUser(@PathVariable Integer id, Model model) {
 
-		log.info("Received request to update user with ID: {}", id);
-		User user = userService.findById(id);
+		logger.info("Received request to update user with ID: {}", id);
+		
+		User user = userService.findUserById(id);
 		model.addAttribute("userForm", user);// Pass data to the view
 
 		return UserController.UPDATE_VIEW; // Returns the view name: update.html
@@ -150,7 +155,8 @@ public class UserController {
 	@GetMapping("/delete/{id}")
 	public String deleteUser(@PathVariable Long id, Model model) {
 
-		log.info("Received request to delete user with ID: {}", id);
+		logger.info("Received request to delete user with ID: {}", id);
+		
 		userService.deleteUser(id);
 
 		List<User> users = userService.getAllUsers();
@@ -158,4 +164,25 @@ public class UserController {
 
 		return UserController.READ_VIEW; // Returns the view name: read.html
 	}
+	
+	/**
+	 * 
+	 * http://localhost:8080/user/8
+	 * 
+	 * @param id
+	 * @param model - An interface used to pass data from the controller to the view
+	 *              (like Thymeleaf HTML pages).
+	 * @return - Redirects the browser to the final UPDATE template.
+	 */
+	@GetMapping("/{id}")
+	public String getUserById(@PathVariable Integer id, Model model) {
+
+		logger.info("Received request for user with id: {}", id);
+
+		User user = userService.findUserById(id);
+		model.addAttribute("userForm", user);// Pass data to the view
+
+		return UserController.UPDATE_VIEW; // Returns the view name: update.html
+	}
+
 }
