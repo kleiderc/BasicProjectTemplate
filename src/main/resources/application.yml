@@ -1,0 +1,72 @@
+spring:
+  application:
+    name: BasicProjectTemplate
+
+  batch:
+    initialize-schema: never # Prevents Spring from trying to create its own schema again
+    jdbc:
+      schema: classpath:org/springframework/batch/core/schema-postgresql.sql
+      table-prefix: basicprojecttemplate.BATCH_
+
+  #devtools.restart.exclude: "**/dto/**,**/model/**,**/factory/**,**/job/**,**/mapper/**,**/model/**"
+
+  main:
+    allow-bean-definition-overriding: true # To trigger file logging, logback-spring.xml handles the rest
+
+  jpa:
+    show-sql: true # Even when using logback-spring.xml, you still need to tell Hibernate to print SQL: # Show SQL statements
+    hibernate:
+      ddl-auto: update # Automatically handle schema
+    properties:
+      hibernate:
+        format_sql: true # Even when using logback-spring.xml, you still need to tell Hibernate to print SQL:
+        dialect: org.hibernate.dialect.PostgreSQLDialect # Hibernate Dialect for PostgreSQL
+        default_schema: basicprojecttemplate # Optional: Set default schema (for all entities)
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/springbootdb
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+    hikari:
+          minimum-idle: 5
+          maximum-pool-size: 10
+          idle-timeout: 30000
+          pool-name: HikariPool-1
+  sql:
+    init:
+      mode: always # Hibernate Create Schema Automatically
+      schema-locations: classpath:db/schema.sql
+
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    cache: false
+
+logging:
+    level:
+      org.hibernate.orm.connections.pooling: INFO
+#      org.springframework:
+#                      jdbc.core: DEBUG
+#                      batch: DEBUG 
+server:
+  port: 8080 # Determine server port http://localhost:9000/index.html
+
+management:
+  server:
+    port: 9001
+    # address: 127.0.0.1  # Uncomment if needed # Determine server address http://127.0.0.1:9000/index.html
+
+  endpoints:
+    web:
+      exposure:
+        include: "*" # Enable actuator endpoints # To expose all actuator endpoints or # To expose specific ones only : health,info,metrics
+
+info:
+  app:
+    name: Actuator Demo
+    version: 1.0.0
+
+# logging:
+#   level:
+#     com.example.BasicProjectTemplate: DEBUG # Spring Logging

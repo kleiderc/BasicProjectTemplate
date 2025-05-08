@@ -45,7 +45,7 @@
 		<appender-ref ref="STDOUT" />
 	</logger>
 
-	Hibernate parameter binding logging
+	<!-- Hibernate parameter binding logging -->
 	<logger name="org.hibernate.type.descriptor.sql.BasicBinder"
 		level="TRACE" additivity="false">
 		<appender-ref ref="STDOUT" />

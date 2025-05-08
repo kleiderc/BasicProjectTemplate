@@ -92,7 +92,8 @@
     	<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<scope>runtime</scope>
+			<version>42.7.3</version> <!-- REQUIRED for PostgreSQL 17 -->
+			<!--scope>runtime</scope-->
 		</dependency>
 		 <!-- Spring Boot Starter AOP for aspect-based logging -->
 	    <dependency>

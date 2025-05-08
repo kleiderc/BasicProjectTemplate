@@ -26,12 +26,12 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         // AuthInterceptor runs first (security-related)
-        registry.addInterceptor(authInterceptor)
-                .addPathPatterns("/**")      // Apply only for specific paths or register the AuthInterceptor for all paths
-                .excludePathPatterns("/api/public/**"); // Skip auth for public APIs
-
-        // LoggingInterceptor runs for all paths
-        registry.addInterceptor(loggingInterceptor)
-                .addPathPatterns("/**");          // Apply to all paths
+//        registry.addInterceptor(authInterceptor)
+//                .addPathPatterns("/**")      // Apply only for specific paths or register the AuthInterceptor for all paths
+//                .excludePathPatterns("/api/public/**"); // Skip auth for public APIs
+//
+//        // LoggingInterceptor runs for all paths
+//        registry.addInterceptor(loggingInterceptor)
+//                .addPathPatterns("/**");          // Apply to all paths
     }
 }
