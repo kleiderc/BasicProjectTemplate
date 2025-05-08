@@ -29,13 +29,13 @@ public class CsvMappingUtil {
 	 * To map a FieldSet into a UserCsvImport object, a FieldSetMapper that returns
 	 * UserCsvImports needs to be defined.
 	 */
-	protected static class UserCsvImportFieldSetMapper implements FieldSetMapper<UserCsvImport> {
+	public static class UserCsvImportFieldSetMapper implements FieldSetMapper<UserCsvImport> {
 
 		public UserCsvImport mapFieldSet(FieldSet fieldSet) {
 
 			UserCsvImport userCsvImport = new UserCsvImport();
 
-			userCsvImport.setId(fieldSet.readString(0));
+			userCsvImport.setId(fieldSet.readInt(0));
 			userCsvImport.setLastName(fieldSet.readString(1));
 			userCsvImport.setFirstName(fieldSet.readString(2));
 			userCsvImport.setPosition(fieldSet.readString(3));
